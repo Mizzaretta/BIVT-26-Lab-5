@@ -107,7 +107,6 @@ namespace Lab5
                 int count = 0;
                 int sum = 0;
 
-                //jMax cycle and average after jMax
                 for (int j = 0; j < cols; j++)
                 {
                     if (matrix[i, j] > matrix[i, jMax])
@@ -123,16 +122,16 @@ namespace Lab5
                     }
                 }
 
-                if (count == 0) return;
-
-                aver = sum / count;
-                
-
-                //Replace negative elements before jMax
-                for (int j = 0; j < jMax; j++)
+                if (count != 0)
                 {
-                    if (matrix[i, j] < 0)
-                        matrix[i, j] = aver;
+                    aver = sum / count;
+
+
+                    for (int j = 0; j < jMax; j++)
+                    {
+                        if (matrix[i, j] < 0)
+                            matrix[i, j] = aver;
+                    }
                 }
             }
 
@@ -199,6 +198,9 @@ namespace Lab5
 
             int rows = matrix.GetLength(0);
             int cols = matrix.GetLength(1);
+
+
+
             (int row, int value)[] minSort = new (int, int)[rows];
 
             for (int r = 0; r < rows; r++)
@@ -214,11 +216,16 @@ namespace Lab5
 
             for (int i = 0; i < minSort.Length - 1; i++)
             {
+                bool swapped = false;
                 for (int j = 0; j < minSort.Length - i - 1; j++)
                 {
                     if (minSort[j].value < minSort[j + 1].value)
+                    {
+                        swapped = true;
                         (minSort[j], minSort[j + 1]) = (minSort[j + 1], minSort[j]);
+                    }
                 }
+                if (!swapped) break;
             }
 
             int[,]temp = new int[rows, cols];
@@ -417,7 +424,6 @@ namespace Lab5
             int[,] answer = null;
 
             // code here
-            // 1. Determine amount of rows and cols to create square matrix of minimal size
 
             int totalElements = 0;
 
@@ -428,8 +434,6 @@ namespace Lab5
             int minimumSize = (int)Math.Ceiling(Math.Sqrt(totalElements));
 
             answer = new int[minimumSize, minimumSize];
-            // 2. Fill the matrix with elements from jagged array. Blank spaces leave with zeros.
-
 
             int k = 0;
             for (int i = 0; i < array.Length; i++)
